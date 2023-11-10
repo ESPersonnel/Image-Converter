@@ -34,8 +34,18 @@ python image_converter.py
 
 ## Minimum Viable Product (MVP)
 
-- Converts a single PNG image to JPG format.
-- Command-line interface for easy usage.
+- [x] Converts a single PNG image to JPG format.
+- [x] Command-line interface for easy usage.
+
+> The app is developing quite well, I'm adding more features as I go along.
+
+- [x] Create a simple UI to choose an image and convert it.
+- [ ] Add support for batch processing multiple images.
+- [ ] Possibly add compression options for the JPG output.
+- [ ] Add quality control options for the JPG output.
+- [ ] Add reverse functionality to convert JPG images to PNG format.
+- [ ] Add multi-conversion functionality to convert images to multiple formats.
+
 
 ## Future Updates
 
