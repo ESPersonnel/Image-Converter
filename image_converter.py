@@ -30,7 +30,7 @@ def convert_png_to_jpg(input_path, output_path):
 #     convert_png_to_jpg('./images/png/canvas.png', './images/jpg/canvas.jpg')
 
 # Example
-input_image_path = 'canvas.png'
-output_image_path = 'canvas.jpg'
+input_image_path = './images/png/canvas.png'
+output_image_path = './images/jpg/canvas.jpg'
 
 convert_png_to_jpg(input_image_path, output_image_path)
