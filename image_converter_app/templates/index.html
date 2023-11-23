@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Image Converter</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Converter</h1>
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="imageInput">Choose a PNG file to convert:</label>
+                <input type="file" name="imageInput" id="imageInput" accept=".png" required>
+            </div>
+            <button type="submit" class="convert-btn" onclick="animateButton()">Convert</button>    
+        </form>
+        {% if message %}
+            <p class="result-message">{{ message }}</p>
+        {% endif %}    
+    </div>
+
+    <script>
+        function animateButton() {
+            var button = document.querySelector('.convert-btn');
+            button.classList.add('animate');
+            setTimeout(function(){
+                button.classList.remove('animate');
+            }, 700);
+        }
+    </script>
+
+</body>
+</html>
