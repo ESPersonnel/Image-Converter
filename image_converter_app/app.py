@@ -1,3 +1,51 @@
+# from flask import Flask, render_template, request
+# from PIL import Image
+# import os
+
+# app = Flask(__name__)
+# app.config['UPLOAD_FOLDER'] = 'uploads'
+
+# def convert_and_save(input_path, output_format, quality):
+#     try:
+#         with Image.open(input_path) as img:
+#             output_directory = os.path.join(app.config['UPLOAD_FOLDER'], output_format)
+#             os.makedirs(output_directory, exist_ok=True)
+
+#             if output_format == 'original':
+#                 output_path = os.path.join(output_directory, os.path.basename(input_path))
+#                 if input_path.lower().endswith('.png'):
+#                     img.save(output_path, optimize=True, quality=quality)
+#                 else:
+#                     img.save(output_path)
+#             else:
+#                 if output_format == 'jpg':
+#                     rgb_img = img.convert('RGB')
+#                     output_path = os.path.join(output_directory, os.path.basename(input_path).replace(os.path.splitext(input_path)[1], '.jpg'))
+#                     rgb_img.save(output_path, 'JPEG', quality=quality)
+#                 else:
+#                     output_path = os.path.join(output_directory, os.path.basename(input_path).replace(os.path.splitext(input_path)[1], f'.{output_format}'))
+#                     img.save(output_path, output_format.upper(), quality=quality)
+
+#     except Exception as e:
+#         print(f"Error converting/compressing image: {e}")
+
+# @app.route('/', methods=['GET', 'POST'])
+# def index():
+#     if request.method == 'POST':
+#         file = request.files['imageInput']
+#         output_format = request.form['outputFormat']
+#         quality = int(request.form['quality'])
+#         if file:
+#             filepath = os.path.join(app.config['UPLOAD_FOLDER'], 'original', file.filename)
+#             os.makedirs(os.path.dirname(filepath), exist_ok=True)
+#             file.save(filepath)
+#             convert_and_save(filepath, output_format, quality)
+#             return render_template('index.html', message=f"Image successfully converted/compressed.")
+#     return render_template('index.html')
+
+# if __name__ == "__main__":
+#     app.run(debug=True)
+
 from flask import Flask, render_template, request
 from PIL import Image
 import os
@@ -5,38 +53,47 @@ import os
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    message = None
-    if request.method == 'POST':
-        file = request.files['imageInput']
-        if file and allowed_file(file.filename):
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(filepath)
-            convert_and_save(filepath)
-            message = f"Conversion successful. Image saved at {os.path.join(app.config['UPLOAD_FOLDER'], file.filename.replace('.png', '.jpg'))}"
-    return render_template('index.html', message=message)
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() == 'png'
-
-def convert_and_save(input_path):
+def convert_and_save(input_path, output_format, quality):
     try:
-        # Open the PNG image
         with Image.open(input_path) as img:
-            # Convert to RGB mode (required for JPG)
-            rgb_img = img.convert('RGB')
-
-            # Create the 'jpg' directory if it doesn't exist
-            output_directory = os.path.join(app.config['UPLOAD_FOLDER'], 'jpg')
+            output_directory = os.path.join(app.config['UPLOAD_FOLDER'], output_format)
             os.makedirs(output_directory, exist_ok=True)
 
-            # Save as JPG with the same name in the 'jpg' directory
-            output_path = os.path.join(output_directory, os.path.basename(input_path).replace(".png", ".jpg"))
-            rgb_img.save(output_path, 'JPEG')
+            if output_format == 'original':
+                output_path = os.path.join(output_directory, os.path.basename(input_path))
+                if input_path.lower().endswith('.png'):
+                    img.save(output_path, optimize=True, quality=quality)
+                else:
+                    img.save(output_path)
+            else:
+                if output_format == 'jpg':
+                    rgb_img = img.convert('RGB')
+                    output_path = os.path.join(output_directory, os.path.basename(input_path).replace(os.path.splitext(input_path)[1], '.jpg'))
+                    rgb_img.save(output_path, 'JPEG', quality=quality)
+                else:
+                    output_path = os.path.join(output_directory, os.path.basename(input_path).replace(os.path.splitext(input_path)[1], f'.{output_format}'))
+                    img.save(output_path, output_format.upper(), quality=quality)
+        os.remove # remove the original file
 
     except Exception as e:
-        print(f"Error converting image: {e}")
+        print(f"Error converting/compressing image: {e}")
 
-if __name__ == '__main__':
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        file = request.files.get('imageInput')
+        output_format = request.form.get('outputFormat')
+        quality = request.form.get('quality', type=int)
+        
+        if not file or not output_format or quality is None:
+            return render_template('index.html', message="Missing input fields. Please try again.")
+        
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], 'original', file.filename)
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        file.save(filepath)
+        convert_and_save(filepath, output_format, quality)
+        return render_template('index.html', message=f"Image successfully converted/compressed.")
+    return render_template('index.html')
+
+if __name__ == "__main__":
     app.run(debug=True)
