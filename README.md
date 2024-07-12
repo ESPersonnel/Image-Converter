@@ -62,11 +62,11 @@ python app.py
 
 ## Future Updates
 
-- [] Support for batch processing multiple images.
-- [] Enhanced error handling and user feedback.
-- [] Improved UI/UX design and responsiveness.
-- [] Additional image formats and conversion options.
-- [] Image editing functionality (e.g., cropping, resizing, rotating).
+- [ ] Support for batch processing multiple images.
+- [ ] Enhanced error handling and user feedback.
+- [ ] Improved UI/UX design and responsiveness.
+- [ ] Additional image formats and conversion options.
+- [ ] Image editing functionality (e.g., cropping, resizing, rotating).
 
 ## Screenshots
 
