@@ -7,6 +7,10 @@
 This web application allows users to convert and compress images in various formats. Built with Flask and using the Pillow library, the app supports multiple output formats and allows users to specify the quality of the compressed image. The application is deployed on Vercel for easy access and use.
 >It's been a tough year and I'm trying to get my groove back. Lucky number... I lost count, but I'm back on the grind.
 
+### Live Link
+
+[Image Converter](https://image-converter-psi.vercel.app/)
+
 ## Installation
 
 1. Clone the repository:
@@ -66,7 +70,7 @@ python app.py
 
 ## Screenshots
 
-I'll include screenshots or examples of how to use the tool, or before-and-after images to demonstrate the conversion process.
+![App Preview](./images/app_preview.png)
 
 ## Project File Structure
 
@@ -86,3 +90,7 @@ I'll include screenshots or examples of how to use the tool, or before-and-after
 |    |    |    |--- png.png
 |    |    |--- jpeg
 |    |    |    |--- jpeg.jpeg
+
+## License
+
+[MIT License](https://opensource.org/licenses/MIT)
