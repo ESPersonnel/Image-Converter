@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, send_file
 from PIL import Image
 import os
 import io
-import zipfile
 
 app = Flask(__name__)
 
@@ -33,23 +32,19 @@ def convert_image(file, output_format, quality):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        files = request.files.getlist('imageInput')
+        file = request.files.get('imageInput')
         output_format = request.form.get('outputFormat')
         quality = request.form.get('quality', type=int)
         
-        if not files or not output_format or quality is None:
+        if not file or not output_format or quality is None:
             return render_template('index.html', message="Missing input fields. Please try again.")
         
-        zip_io = io.BytesIO()
-        with zipfile.ZipFile(zip_io, 'w') as zip_file:
-            for file in files:
-                img_io = convert_image(file, output_format, quality)
-                if img_io:
-                    output_filename = f"{os.path.splitext(file.filename)[0]}.{output_format if output_format != 'original' else file.filename.split('.')[-1]}"
-                    zip_file.writestr(output_filename, img_io.getvalue())
+        img_io = convert_image(file, output_format, quality)
+        if img_io is None:
+            return render_template('index.html', message="Error converting/compressing image.")
         
-        zip_io.seek(0)
-        return send_file(zip_io, mimetype='application/zip', as_attachment=True, download_name='converted_images.zip')
+        output_filename = f"converted.{output_format if output_format != 'original' else file.filename.split('.')[-1]}"
+        return send_file(img_io, mimetype=f'image/{output_format}', as_attachment=True, download_name=output_filename)
     
     return render_template('index.html')
 
