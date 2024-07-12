@@ -74,22 +74,22 @@ python app.py
 
 ## Project File Structure
 
-|--- Image Converter
-|    |--- app.py
-|    |--- requirements.txt
-|    |--- README.md
-|    |--- templates
-|    |    |--- index.html
-|    |--- static
-|    |    |--- css
-|    |    |    |--- style.css
-|    |--- uploads
-|    |    |--- jpg
-|    |    |    |--- jpg.jpg
-|    |    |--- png
-|    |    |    |--- png.png
-|    |    |--- jpeg
-|    |    |    |--- jpeg.jpeg
+    |--- Image Converter
+    |    |--- app.py
+    |    |--- requirements.txt
+    |    |--- README.md
+    |    |--- templates
+    |    |    |--- index.html
+    |    |--- static
+    |    |    |--- css
+    |    |    |    |--- style.css
+    |    |--- uploads
+    |    |    |--- jpg
+    |    |    |    |--- jpg.jpg
+    |    |    |--- png
+    |    |    |    |--- png.png
+    |    |    |--- jpeg
+    |    |    |    |--- jpeg.jpeg
 
 ## License
 
