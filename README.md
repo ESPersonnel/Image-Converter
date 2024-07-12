@@ -56,3 +56,22 @@ python image_converter.py
 ## Screenshots
 
 I'll include screenshots or examples of how to use the tool, or before-and-after images to demonstrate the conversion process.
+
+## Project File Structure
+
+|--- Image Converter
+|    |--- app.py
+|    |--- requirements.txt
+|    |--- README.md
+|    |--- templates
+|    |    |--- index.html
+|    |--- static
+|    |    |--- css
+|    |    |    |--- style.css
+|    |--- uploads
+|    |    |--- jpg
+|    |    |    |--- jpg.jpg
+|    |    |--- png
+|    |    |    |--- png.png
+|    |    |--- jpeg
+|    |    |    |--- jpeg.jpeg
