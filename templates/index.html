@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Image Converter and Compressor</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Converter and Compressor</h1>
+        <form action="/" method="POST" enctype="multipart/form-data" id="uploadForm">
+            <div class="form-group">
+                <label for="imageInput">Choose an image file to convert or compress:</label>
+                <div id="drop-area">
+                    <p>Drag & Drop Image Here</p>
+                    <input type="file" name="imageInput" id="imageInput" accept="image/*" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="outputFormat">Output Format:</label>
+                <select name="outputFormat" id="outputFormat" required>
+                    <option value="original">Keep Original</option>
+                    <option value="jpg">JPG</option>
+                    <option value="png">PNG</option>
+                    <option value="webp">WEBP</option>
+                    <option value="exr">EXR</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quality">Compression Quality (1-100):</label>
+                <input type="number" name="quality" id="quality" min="1" max="100" value="85" required>
+            </div>
+            <button type="submit" class="convert-btn" onclick="animateButton()">Convert & Compress</button>
+        </form>
+        {% if message %}
+            <p class="result-message">{{ message }}</p>
+        {% endif %}
+    </div>
+
+    <script>
+        function animateButton() {
+            document.querySelector('.convert-btn').classList.add('animated');
+            setTimeout(() => {
+                document.querySelector('.convert-btn').classList.remove('animated');
+            }, 1000);
+        }
+
+        // Drag and drop functionality
+        let dropArea = document.getElementById('drop-area');
+        let fileInput = document.getElementById('imageInput');
+
+        dropArea.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropArea.classList.add('dragging');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('dragging');
+        });
+
+        dropArea.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropArea.classList.remove('dragging');
+            fileInput.files = event.dataTransfer.files;
+        });
+    </script>
+</body>
+</html>
